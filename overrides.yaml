@@ -1,0 +1,72 @@
+gcp:
+  region: asia-southeast2
+  projectID: joey-stalsp-project
+
+k8sCluster:
+  name: stalsp-id-untrust-api
+  region: asia-southeast2 # Must be the closest Google Cloud region to your cluster.
+org: joey-stalsp-project
+
+instanceID: "apigee-hybird-instance"
+
+cassandra:
+  hostNetwork: false
+    # Set to false for single region installations and multi-region installations
+    # with connectivity between pods in different clusters, for example GKE installations.
+    # Set to true  for multi-region installations with no communication between
+    # pods in different clusters, for example GKE On-prem, GKE on AWS, Anthos on bare metal,
+    # AKS, EKS, and OpenShift installations.
+    # See Multi-region deployment: Prerequisites
+
+virtualhosts:
+  - name: joey-stalsp-group
+    sslCertPath: ./certs/keystore.pem
+    sslKeyPath: ./certs/keystore.key
+
+envs:
+  - name: joey-stalsp-env
+    serviceAccountPaths:
+      synchronizer: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-synchronizer.json
+      udca: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-udca.json
+      runtime: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-runtime.json
+
+mart:
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-mart.json
+
+connectAgent:
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-mart.json
+        # Use the same service account for mart and connectAgent
+
+metrics:
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-metrics.json
+
+udca:
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-udca.json
+
+watcher:
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-watcher.json
+
+logger:
+  enabled: false
+        # Set to false to disable logger for GKE installatinos.
+        # Set to true for all platforms other than GKE.
+        # See apigee-logger in Service accounts and roles used by hybrid components.
+  serviceAccountPath: ./service-accounts/apigee-non-prod@joey-stalsp-project.iam.gserviceaccount.com.json
+        # for non-production environments, gcp-project-id-apigee-non-prod.json
+        # for production environments, gcp-project-id-apigee-logger.json
